@@ -1,0 +1,26 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWTexture2D<float4> Result;
+
+float2 iResolution;
+float2 iMouse;
+float iTime;
+
+[numthreads(8,8,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+    float2 uv = float2(id.xy / iResolution.xy * 2.0) - 1.0;
+    uv.x *= iResolution.x/ iResolution.y;
+    
+    float2 p = (iMouse.xy)/5.0;
+    
+    float3 col = float3(0.0, 0.0, 0.0);
+    float d = sin( length(uv - p) + iTime)* iTime;
+    
+     col = float3(0.0, d, d);
+    
+}
